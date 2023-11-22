@@ -1,4 +1,5 @@
-let button_1
+var socket
+var sonicPiOscPort = 4560
 
  class Control {
   isActive = false
@@ -121,6 +122,7 @@ let button_1
     if (this.slider_volume.isChanged) {
       const {label, val} = this.slider_volume
       print(label + ": " + val);
+      sendOsc(`/${this.label}/volume`, val)
     }
 
     if (this.slider_fx1.isChanged) {
@@ -140,6 +142,7 @@ const controls = []
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  setupOsc(12000, sonicPiOscPort);
 
   gui = createGui()
   controls.push(new Control('CTRL_1', 0 * controlWidth,0, controlWidth, controlHeight))
