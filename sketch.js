@@ -58,7 +58,7 @@ var sonicPiOscPort = 4560
     })
 
     this.slider_volume = createSlider(
-      `${label}_sl_vol`,
+      `${label}_volume`,
       posX,
       this.dimensions.vol_slider_top,
       ctrl_width,
@@ -70,7 +70,7 @@ var sonicPiOscPort = 4560
     this.slider_volume.isInteger = true
 
     this.slider_fx1 = createSlider(
-      `${label}_sl_fx1`,
+      `${label}_fx1`,
       posX,
       this.dimensions.fx1_slider_top,
       ctrl_width,
@@ -109,7 +109,7 @@ var sonicPiOscPort = 4560
 
     if (this.button.isPressed) {
       this.isActive = !this.isActive
-      const {label} = this.button
+      sendOsc(`/${this.label}/active`, this.isActive ? 1 : 0)
       print(this.label + ".isActive:", this.isActive);
       this.button.label = this.isActive ? "ON" : "OFF"
       this.button.setStyle({
@@ -128,6 +128,7 @@ var sonicPiOscPort = 4560
     if (this.slider_fx1.isChanged) {
       const {label, val} = this.slider_fx1
       print(label + ": " + val);
+      sendOsc(`/${this.label}/fx1`, val)
     }
   }
 
